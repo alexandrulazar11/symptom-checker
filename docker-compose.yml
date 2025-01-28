@@ -6,11 +6,11 @@ services:
     ports:
       - "8000:8000"
     command: "-jar DynamoDBLocal.jar -inMemory -sharedDb"
-    resources:
-      limits:
-        memory: 512m
-      reservations:
-        memory: 256m
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+          cpus: "0.5"
 
   app:
     build:
@@ -20,9 +20,9 @@ services:
       - "8080:8080"
     depends_on:
       - dynamodb
-    resources:
-      limits:
-        memory: 1g
-      reservations:
-        memory: 512m
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+          cpus: "1.0"
 
