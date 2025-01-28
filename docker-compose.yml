@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  dynamodb:
+    image: amazon/dynamodb-local
+    container_name: dynamodb
+    ports:
+      - "8000:8000"
+    command: "-jar DynamoDBLocal.jar -inMemory -sharedDb"
+    resources:
+      limits:
+        memory: 512m
+      reservations:
+        memory: 256m
+
+  app:
+    build:
+      context: .
+    container_name: symptomchecker-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dynamodb
+    resources:
+      limits:
+        memory: 1g
+      reservations:
+        memory: 512m
+
