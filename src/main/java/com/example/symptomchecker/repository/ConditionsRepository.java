@@ -5,6 +5,9 @@ import org.springframework.stereotype.Repository;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Repository
 public class ConditionsRepository {
 
@@ -16,6 +19,10 @@ public class ConditionsRepository {
 
     public void saveCondition(Condition condition) {
         conditionTable.putItem(condition);
+    }
+
+    public List<Condition> getAllConditions() {
+        return conditionTable.scan().items().stream().collect(Collectors.toList());
     }
 }
 

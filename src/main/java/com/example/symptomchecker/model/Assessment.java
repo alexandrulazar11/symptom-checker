@@ -7,7 +7,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.StaticTableSchema;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.StaticAttributeTags;
 
-import java.util.List;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -16,11 +16,11 @@ public class Assessment {
 
     private String assessmentId;
     private String userId;
-    private List<String> initialSymptoms;
-    private String nextQuestionId;
-    private boolean completed;
+    private Set<String> initialSymptoms = new HashSet<>();
+    private Set<String> answeredSymptoms = new HashSet<>();
+    private Map<String, Double> conditionProbabilities = new HashMap<>();
+    private boolean completed = false;
 
-    // Define the TableSchema for DynamoDB mapping
     public static final TableSchema<Assessment> TABLE_SCHEMA = StaticTableSchema.builder(Assessment.class)
             .newItemSupplier(Assessment::new)
             .addAttribute(String.class, a -> a.name("assessmentId")
@@ -30,12 +30,15 @@ public class Assessment {
             .addAttribute(String.class, a -> a.name("userId")
                     .getter(Assessment::getUserId)
                     .setter(Assessment::setUserId))
-            .addAttribute(List.class, a -> a.name("initialSymptoms")
+            .addAttribute(Set.class, a -> a.name("initialSymptoms")
                     .getter(Assessment::getInitialSymptoms)
                     .setter(Assessment::setInitialSymptoms))
-            .addAttribute(String.class, a -> a.name("nextQuestionId")
-                    .getter(Assessment::getNextQuestionId)
-                    .setter(Assessment::setNextQuestionId))
+            .addAttribute(Set.class, a -> a.name("answeredSymptoms")
+                    .getter(Assessment::getAnsweredSymptoms)
+                    .setter(Assessment::setAnsweredSymptoms))
+            .addAttribute(Map.class, a -> a.name("conditionProbabilities")
+                    .getter(Assessment::getConditionProbabilities)
+                    .setter(Assessment::setConditionProbabilities))
             .addAttribute(Boolean.class, a -> a.name("completed")
                     .getter(Assessment::isCompleted)
                     .setter(Assessment::setCompleted))
