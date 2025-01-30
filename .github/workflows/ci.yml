@@ -22,6 +22,15 @@ jobs:
           java-version: '21'
           cache: 'maven'
 
+      - name: Ensure Correct JDK
+        run: echo "JAVA_HOME=${{ steps.setup-java.outputs.path }}" >> $GITHUB_ENV
+
+      - name: Verify Java Version
+        run: |
+          echo "JAVA_HOME: $JAVA_HOME"
+          java -version
+          javac -version
+
       - name: Build and Run Tests
         run: mvn clean verify
 
@@ -40,6 +49,15 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: 'maven'
+
+      - name: Ensure Correct JDK
+        run: echo "JAVA_HOME=${{ steps.setup-java.outputs.path }}" >> $GITHUB_ENV
+
+      - name: Verify Java Version
+        run: |
+          echo "JAVA_HOME: $JAVA_HOME"
+          java -version
+          javac -version
 
       - name: Run Checkstyle
         run: mvn checkstyle:check
