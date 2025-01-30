@@ -27,10 +27,10 @@ public class AuthenticationController {
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
         log.info("Received request to register user: {}", request.email());
         User user = new User(
-                request.email(),
-                request.password(),
-                request.age(),
-                request.gender()
+            request.email(),
+            request.password(),
+            request.age(),
+            request.gender()
         );
 
         try {

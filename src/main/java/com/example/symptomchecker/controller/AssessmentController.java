@@ -42,15 +42,15 @@ public class AssessmentController {
 
     @PostMapping("/{assessment_id}/answer")
     public ResponseEntity<Map<String, String>> answerQuestion(
-            @PathVariable("assessment_id") String assessmentId,
-            @RequestBody AnswerQuestionRequest request) {
+        @PathVariable("assessment_id") String assessmentId,
+        @RequestBody AnswerQuestionRequest request) {
         log.info("User answered: Assessment {}, Symptom {}, Response {}",
-                assessmentId, request.questionId(), request.userResponse());
+            assessmentId, request.questionId(), request.userResponse());
         try {
             String nextQuestion = assessmentService.answerQuestion(
-                    assessmentId,
-                    request.questionId(),
-                    request.userResponse());
+                assessmentId,
+                request.questionId(),
+                request.userResponse());
 
             if (nextQuestion != null) {
                 return ResponseEntity.ok(Map.of("next_question_id", nextQuestion));
@@ -65,19 +65,19 @@ public class AssessmentController {
 
     @GetMapping("/{assessment_id}/result")
     public ResponseEntity<AssessmentResultResponse> getAssessmentResult(
-            @PathVariable("assessment_id") String assessmentId) {
+        @PathVariable("assessment_id") String assessmentId) {
         log.info("Fetching final assessment result for: {}", assessmentId);
         try {
             Map<String, Double> conditionProbabilities = assessmentService.getAssessmentResult(assessmentId);
 
             var likelyCondition = conditionProbabilities.entrySet().stream()
-                    .max(Map.Entry.comparingByValue())
-                    .map(Map.Entry::getKey)
-                    .orElse("Unknown");
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("Unknown");
 
             AssessmentResultResponse response = new AssessmentResultResponse(
-                    likelyCondition,
-                    conditionProbabilities
+                likelyCondition,
+                conditionProbabilities
             );
 
             return ResponseEntity.ok(response);

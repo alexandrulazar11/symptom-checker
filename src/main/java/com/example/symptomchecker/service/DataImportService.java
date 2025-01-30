@@ -14,7 +14,7 @@ public class DataImportService {
     private final SymptomsRepository symptomsRepository;
 
     public DataImportService(ConditionsRepository conditionsRepository,
-                             SymptomsRepository symptomsRepository) {
+        SymptomsRepository symptomsRepository) {
         this.conditionsRepository = conditionsRepository;
         this.symptomsRepository = symptomsRepository;
     }

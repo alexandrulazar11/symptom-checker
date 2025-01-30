@@ -27,12 +27,13 @@ public class Assessment {
 
     }
 
-    public Assessment(String assessmentId,
-                      String userId,
-                      Set<String> initialSymptoms,
-                      Set<String> answeredSymptoms,
-                      Map<String, Double> conditionProbabilities,
-                      boolean completed) {
+    public Assessment(
+        String assessmentId,
+        String userId,
+        Set<String> initialSymptoms,
+        Set<String> answeredSymptoms,
+        Map<String, Double> conditionProbabilities,
+        boolean completed) {
         this.assessmentId = assessmentId;
         this.userId = userId;
         this.initialSymptoms = initialSymptoms;

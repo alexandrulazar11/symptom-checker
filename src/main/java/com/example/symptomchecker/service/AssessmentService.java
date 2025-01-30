@@ -22,8 +22,8 @@ public class AssessmentService {
     private final SymptomsRepository symptomsRepository;
 
     public AssessmentService(AssessmentRepository assessmentRepository,
-                             ConditionsRepository conditionsRepository,
-                             SymptomsRepository symptomsRepository) {
+        ConditionsRepository conditionsRepository,
+        SymptomsRepository symptomsRepository) {
         this.assessmentRepository = assessmentRepository;
         this.conditionsRepository = conditionsRepository;
         this.symptomsRepository = symptomsRepository;
@@ -34,15 +34,15 @@ public class AssessmentService {
         String assessmentId = UUID.randomUUID().toString();
 
         Assessment assessment = new Assessment(
-                assessmentId,
-                userId,
-                new HashSet<>(initialSymptoms),
-                new HashSet<>(),
-                new HashMap<>(),
-                false);
+            assessmentId,
+            userId,
+            new HashSet<>(initialSymptoms),
+            new HashSet<>(),
+            new HashMap<>(),
+            false);
 
         conditionsRepository.getAllConditions().forEach(condition ->
-                assessment.getConditionProbabilities().put(condition.getConditionName(), condition.getPrevalence()));
+            assessment.getConditionProbabilities().put(condition.getConditionName(), condition.getPrevalence()));
 
         for (String symptom : initialSymptoms) {
             updateProbabilities(assessment, symptom, true);
@@ -56,7 +56,7 @@ public class AssessmentService {
 
     public String answerQuestion(String assessmentId, String symptomId, String response) {
         log.info("Processing answer: Assessment {}, Symptom {}, Response {}",
-                assessmentId, symptomId, response);
+            assessmentId, symptomId, response);
         Assessment assessment = assessmentRepository.getAssessment(assessmentId);
 
         if (assessment == null || assessment.isCompleted()) {
@@ -70,7 +70,7 @@ public class AssessmentService {
         String nextSymptom = selectNextQuestion(assessment);
         if (assessment.getAnsweredSymptoms().size() >= 3 || nextSymptom == null) {
             log.info("Ending assessment {} - Final probabilities: {}",
-                    assessmentId, assessment.getConditionProbabilities());
+                assessmentId, assessment.getConditionProbabilities());
             assessment.setCompleted(true);
         }
 
@@ -120,9 +120,9 @@ public class AssessmentService {
         Set<String> askedSymptoms = assessment.getAnsweredSymptoms();
 
         String mostLikelyCondition = assessment.getConditionProbabilities().entrySet().stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .orElse(null);
+            .max(Map.Entry.comparingByValue())
+            .map(Map.Entry::getKey)
+            .orElse(null);
 
         if (mostLikelyCondition == null) {
             return null;
