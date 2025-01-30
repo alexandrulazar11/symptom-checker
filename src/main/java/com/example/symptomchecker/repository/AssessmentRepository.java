@@ -12,7 +12,7 @@ public class AssessmentRepository {
     private final DynamoDbTable<Assessment> assessmentTable;
 
     public AssessmentRepository(DynamoDbEnhancedClient dynamoDbEnhancedClient) {
-        this.assessmentTable = dynamoDbEnhancedClient.table("Assessment", Assessment.TABLE_SCHEMA);
+        this.assessmentTable = dynamoDbEnhancedClient.table("Assessment", Assessment.getTableSchema());
     }
 
     public void saveAssessment(Assessment assessment) {

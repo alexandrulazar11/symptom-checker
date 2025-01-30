@@ -8,7 +8,6 @@ import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class SymptomsRepository {
@@ -16,7 +15,7 @@ public class SymptomsRepository {
     private final DynamoDbTable<Symptom> symptomTable;
 
     public SymptomsRepository(DynamoDbEnhancedClient dynamoDbEnhancedClient) {
-        this.symptomTable = dynamoDbEnhancedClient.table("Symptoms", Symptom.TABLE_SCHEMA);
+        this.symptomTable = dynamoDbEnhancedClient.table("Symptoms", Symptom.getTableSchema());
     }
 
     public void saveSymptom(Symptom symptom) {
@@ -26,7 +25,7 @@ public class SymptomsRepository {
     public List<Symptom> getSymptomsByCondition(String conditionId) {
         return symptomTable.scan().items().stream()
                 .filter(symptom -> symptom.getConditionName().equals(conditionId))
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
