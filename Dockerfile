@@ -1,5 +1,10 @@
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
+
+RUN java -version
+RUN javac -version
+RUN mvn -version
+
 COPY . .
 RUN mvn clean package -DskipTests
 
