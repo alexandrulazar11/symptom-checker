@@ -10,6 +10,7 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.model.Page;
 import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class SymptomsRepositoryTest {
     private DynamoDbEnhancedClient dynamoDbEnhancedClient;
 
     @Mock
+    private DynamoDbClient dynamoDbClient;
+
+    @Mock
     private DynamoDbTable<Symptom> symptomTable;
 
     private SymptomsRepository symptomsRepository;
@@ -31,7 +35,7 @@ public class SymptomsRepositoryTest {
         MockitoAnnotations.openMocks(this);
         doReturn(symptomTable).when(dynamoDbEnhancedClient)
                 .table(eq("Symptoms"), any());
-        symptomsRepository = new SymptomsRepository(dynamoDbEnhancedClient);
+        symptomsRepository = new SymptomsRepository(dynamoDbEnhancedClient, dynamoDbClient);
     }
 
     @Test

@@ -52,11 +52,11 @@ public class Symptom {
                     .addAttribute(String.class, a -> a.name("symptomName")
                             .getter(Symptom::getSymptomName)
                             .setter(Symptom::setSymptomName)
-                            .tags(StaticAttributeTags.primaryPartitionKey())) // Partition Key
+                            .tags(StaticAttributeTags.primaryPartitionKey()))
                     .addAttribute(String.class, a -> a.name("conditionName")
                             .getter(Symptom::getConditionName)
                             .setter(Symptom::setConditionName)
-                            .tags(StaticAttributeTags.primarySortKey())) // Sort Key
+                            .tags(StaticAttributeTags.primarySortKey()))
                     .addAttribute(Double.class, a -> a.name("probability")
                             .getter(Symptom::getProbability)
                             .setter(Symptom::setProbability))

@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -16,6 +17,9 @@ public class UserRepositoryTest {
 
     @Mock
     private DynamoDbEnhancedClient dynamoDbEnhancedClient;
+
+    @Mock
+    private DynamoDbClient dynamoDbClient;
 
     @Mock
     private DynamoDbTable<User> userTable;
@@ -27,7 +31,7 @@ public class UserRepositoryTest {
         MockitoAnnotations.openMocks(this);
         doReturn(userTable).when(dynamoDbEnhancedClient)
                 .table(eq("User"), any());
-        userRepository = new UserRepository(dynamoDbEnhancedClient);
+        userRepository = new UserRepository(dynamoDbEnhancedClient, dynamoDbClient);
     }
 
     @Test
@@ -57,10 +61,10 @@ public class UserRepositoryTest {
 
         // Then
         assertNotNull(retrievedUser);
-        assertEquals(expectedUser.email(), retrievedUser.email());
-        assertEquals(expectedUser.password(), retrievedUser.password());
-        assertEquals(expectedUser.age(), retrievedUser.age());
-        assertEquals(expectedUser.gender(), retrievedUser.gender());
+        assertEquals(expectedUser.getEmail(), retrievedUser.getEmail());
+        assertEquals(expectedUser.getPassword(), retrievedUser.getPassword());
+        assertEquals(expectedUser.getAge(), retrievedUser.getAge());
+        assertEquals(expectedUser.getGender(), retrievedUser.getGender());
         verify(userTable, times(1)).getItem(mockKey);
     }
 

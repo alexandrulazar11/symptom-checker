@@ -35,7 +35,7 @@ public class AssessmentController {
                     assessment.getAssessmentId(),
                     nextQuestion));
         } catch (Exception e) {
-            log.error("Could not start assessment for user: {}", request.userId());
+            log.error("Could not start assessment for user: {} with ex {}", request.userId(), e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }

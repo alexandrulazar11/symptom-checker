@@ -67,7 +67,8 @@ public class Assessment {
     }
 
     public Set<String> getAnsweredSymptoms() {
-        return answeredSymptoms;
+        Set<String> answers = new HashSet<>();
+        return answeredSymptoms != null ? answeredSymptoms : answers;
     }
 
     public void setAnsweredSymptoms(Set<String> answeredSymptoms) {
@@ -125,8 +126,10 @@ public class Assessment {
 
         @Override
         public AttributeValue transformFrom(Set<String> set) {
-            return set == null ? AttributeValue.builder().nul(true).build() :
-                    AttributeValue.builder().ss(set).build();
+            if (set == null || set.isEmpty()) {
+                return AttributeValue.builder().nul(true).build();
+            }
+            return AttributeValue.builder().ss(set).build();
         }
 
         @Override

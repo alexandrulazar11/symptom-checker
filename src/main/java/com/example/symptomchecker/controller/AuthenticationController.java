@@ -47,10 +47,9 @@ public class AuthenticationController {
         log.info("Received request to login user: {}", request.email());
         try {
             User user = userService.loginUser(request.email(), request.password());
-            return ResponseEntity.ok(user.email());
+            return ResponseEntity.ok(user.getEmail());
         } catch (ServiceException exception) {
-            log.error("Invalid email or password.");
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.internalServerError().body("Invalid email or password.");
         }
     }
 }

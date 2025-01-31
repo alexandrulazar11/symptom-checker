@@ -28,7 +28,7 @@ public class UserServiceTest {
     void testRegisterUser_Success() {
         // Given
         User newUser = new User("test@example.com", "password123", 25, "Male");
-        when(userRepository.getUser(newUser.email())).thenReturn(null);
+        when(userRepository.getUser(newUser.getEmail())).thenReturn(null);
         doNothing().when(userRepository).saveUser(any(User.class));
 
         // When
@@ -42,7 +42,7 @@ public class UserServiceTest {
     void testRegisterUser_UserAlreadyExists() {
         // Given
         User existingUser = new User("test@example.com", "password123", 25, "Male");
-        when(userRepository.getUser(existingUser.email())).thenReturn(existingUser);
+        when(userRepository.getUser(existingUser.getEmail())).thenReturn(existingUser);
 
         // When & Then
         ServiceException exception = assertThrows(ServiceException.class, () -> userService.registerUser(existingUser));
@@ -64,7 +64,7 @@ public class UserServiceTest {
 
         // Then
         assertNotNull(loggedInUser);
-        assertEquals(email, loggedInUser.email());
+        assertEquals(email, loggedInUser.getEmail());
         verify(userRepository, times(1)).getUser(email);
     }
 

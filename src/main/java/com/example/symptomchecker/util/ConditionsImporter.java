@@ -3,7 +3,9 @@ package com.example.symptomchecker.util;
 import com.example.symptomchecker.model.Condition;
 import com.opencsv.CSVReader;
 
-import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,12 @@ public class ConditionsImporter {
     public List<Condition> importConditions(String filePath) throws Exception {
         List<Condition> conditions = new ArrayList<>();
 
-        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+        if (inputStream == null) {
+            throw new FileNotFoundException("File not found: " + filePath);
+        }
+
+        try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream))) {
             String[] line;
             boolean isHeader = true;
 

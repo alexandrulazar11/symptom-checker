@@ -59,8 +59,12 @@ public class AssessmentService {
             assessmentId, symptomId, response);
         Assessment assessment = assessmentRepository.getAssessment(assessmentId);
 
-        if (assessment == null || assessment.isCompleted()) {
+        if (assessment == null) {
             throw new ServiceException("Invalid or completed assessment with ID: " + assessmentId);
+        }
+
+        if (assessment.isCompleted()) {
+            throw new ServiceException("Assessment is already completed. " + assessmentId);
         }
 
         assessment.getAnsweredSymptoms().add(symptomId);
@@ -72,6 +76,14 @@ public class AssessmentService {
             log.info("Ending assessment {} - Final probabilities: {}",
                 assessmentId, assessment.getConditionProbabilities());
             assessment.setCompleted(true);
+            StringBuilder sb = new StringBuilder();
+            sb.append("Likely Condition is: ");
+            sb.append(assessment.getConditionProbabilities().entrySet().stream()
+                    .max(Map.Entry.comparingByValue())
+                    .map(Map.Entry::getKey)
+                    .orElse("Unknown"));
+            sb.append("! Get Assessment Result for more details!");
+            nextSymptom = sb.toString();
         }
 
         assessmentRepository.saveAssessment(assessment);
@@ -118,6 +130,7 @@ public class AssessmentService {
 
     public String selectNextQuestion(Assessment assessment) {
         Set<String> askedSymptoms = assessment.getAnsweredSymptoms();
+        Set<String> initialSymptoms = assessment.getInitialSymptoms();
 
         String mostLikelyCondition = assessment.getConditionProbabilities().entrySet().stream()
             .max(Map.Entry.comparingByValue())
@@ -131,6 +144,7 @@ public class AssessmentService {
         return symptomsRepository.getSymptomsByCondition(mostLikelyCondition).stream()
                 .map(Symptom::getSymptomName)
                 .filter(symptom -> !askedSymptoms.contains(symptom))
+                .filter(symptom -> !initialSymptoms.contains(symptom))
                 .findFirst()
                 .orElse(null);
     }

@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -19,6 +20,9 @@ public class AssessmentRepositoryTest {
     private DynamoDbEnhancedClient dynamoDbEnhancedClient;
 
     @Mock
+    private DynamoDbClient dynamoDbClient;
+
+    @Mock
     private DynamoDbTable<Assessment> assessmentTable;
 
     private AssessmentRepository assessmentRepository;
@@ -28,7 +32,7 @@ public class AssessmentRepositoryTest {
         MockitoAnnotations.openMocks(this);
         doReturn(assessmentTable).when(dynamoDbEnhancedClient)
                 .table(eq("Assessment"), any());
-        assessmentRepository = new AssessmentRepository(dynamoDbEnhancedClient);
+        assessmentRepository = new AssessmentRepository(dynamoDbEnhancedClient, dynamoDbClient);
     }
 
     @Test
