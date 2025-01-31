@@ -29,7 +29,7 @@ public class AssessmentRepository {
         try {
             dynamoDbClient.describeTable(DescribeTableRequest.builder().tableName("Assessment").build());
         } catch (ResourceNotFoundException e) {
-            log.info("Table 'Assessment' does not exist. Creating now...");
+            log.info("Table 'Assessment' does not exist. Creating now");
 
             CreateTableRequest request = CreateTableRequest.builder()
                     .tableName("Assessment")

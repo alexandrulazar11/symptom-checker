@@ -15,7 +15,7 @@ import java.util.List;
 
 @Repository
 public class SymptomsRepository {
-    private static final Logger log = LogUtil.getLogger(ConditionsRepository.class);
+    private static final Logger log = LogUtil.getLogger(SymptomsRepository.class);
 
     private final DynamoDbTable<Symptom> symptomTable;
     private final DynamoDbClient dynamoDbClient;

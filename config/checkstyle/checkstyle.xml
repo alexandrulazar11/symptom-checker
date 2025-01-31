@@ -5,7 +5,7 @@
 
 <module name="Checker">
     <module name="LineLength">
-        <property name="max" value="120"/>  <!-- Adjust as needed -->
+        <property name="max" value="120"/>
         <property name="tabWidth" value="4"/>
     </module>
 

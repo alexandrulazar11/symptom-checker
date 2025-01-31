@@ -1,20 +1,15 @@
 package com.example.symptomchecker.repository;
 
 import com.example.symptomchecker.model.Condition;
-import com.example.symptomchecker.service.AssessmentService;
 import com.example.symptomchecker.util.LogUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
-import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
-import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.*;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class ConditionsRepository {
