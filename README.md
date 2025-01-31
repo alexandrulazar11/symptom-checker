@@ -30,10 +30,13 @@ docker-compose up --build
 - Password hashing or encryption
 - Making the password transient to not be logged in other scenarios
 - Using Keycloak for authentication and authorization
+- JavaDoc and Swagger API documentation
 - Caching before the repository layer, since the symptoms and conditions will probably not change too often and to speed up development
 - Making the application reactive with Spring WebFlux
 - Provide related symptoms to the previous ones
 - Scale the list of conditions and symptoms to get rid of the csv files
 - Use AI to determine likely conditions
 - Use Kubernetes to deploy
+- Extracting the request and response objects into a client library to be exported and used by clients
+- Implement the assessment through a websocket for real time data processing
 
